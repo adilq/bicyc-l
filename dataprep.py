@@ -4,8 +4,8 @@ from datetime import datetime
 
 def prepData():
     #open files so we can see data easily
-    f = open("testStuff.txt", 'r+')
-    g = open("coordinates.txt", 'r+')
+    # f = open("testStuff.txt", 'r+')
+    # g = open("coordinates.txt", 'r+')
 
     #some functions that are helpful to format data
     def getCoords(geometry):
@@ -32,7 +32,7 @@ def prepData():
     #load data
     bike_parking_df = pd.read_csv('datasets/Bicycle Parking Map Data.csv')
     thefts_df = pd.read_csv('datasets/Bicycle_Thefts.csv')
-    print(bike_parking_df, file=g)
+
 
     #get only data that we need
     thefts_df = thefts_df[['Occurrence_Date', 'Occurrence_DayOfWeek', 'Occurrence_DayOfYear', 'Longitude', 'Latitude']]
@@ -50,7 +50,5 @@ def prepData():
     thefts_df['Year'] = thefts_df["Occurrence_Date"].apply(getYear)
     thefts_df['Day'] = thefts_df["Occurrence_Date"].apply(getDay)
 
-    print(thefts_df, file=f)
-    print(bike_parking_df, file=g)
 
     return thefts_df, bike_parking_df
