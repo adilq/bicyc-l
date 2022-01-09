@@ -20,6 +20,14 @@ def prepData():
             data = str(data)
         return datetime.strptime(data, format)
 
+    def getMonth(date):
+        return date.month
+
+    def getYear(date):
+        return date.year
+
+    def getDay(date):
+        return date.day
 
     #load data
     bike_parking_df = pd.read_csv('datasets/Bicycle Parking Map Data.csv')
@@ -27,7 +35,7 @@ def prepData():
     print(bike_parking_df, file=g)
 
     #get only data that we need
-    thefts_df = thefts_df[['Occurrence_Date', 'Occurrence_Year', 'Occurrence_Month', 'Occurrence_DayOfWeek', 'Occurrence_DayOfMonth', 'Occurrence_DayOfYear', 'Occurrence_Hour', 'Longitude', 'Latitude']]
+    thefts_df = thefts_df[['Occurrence_Date', 'Occurrence_DayOfWeek', 'Occurrence_DayOfYear', 'Longitude', 'Latitude']]
 
     #get latitude and longitude coords from 'geometry' column (cause the existing ones are empty)
     bike_parking_df['coords'] = bike_parking_df['geometry'].apply(getCoords)
@@ -38,9 +46,9 @@ def prepData():
 
     #change occurence date into datetime
     thefts_df['Occurrence_Date'] = thefts_df["Occurrence_Date"].apply(string2Datetime, args=('%Y/%m/%d',))
-    thefts_df['Occurrence_Year'] = thefts_df["Occurrence_Year"].apply(string2Datetime, args=('%Y',))
-    thefts_df['Occurrence_Month'] = thefts_df["Occurrence_Month"].apply(string2Datetime, args=('%B',))
-    thefts_df['Occurrence_DayOfWeek'] = thefts_df["Occurrence_DayOfWeek"].apply(string2Datetime, args=('%A',))
+    thefts_df['Month'] = thefts_df["Occurrence_Date"].apply(getMonth)
+    thefts_df['Year'] = thefts_df["Occurrence_Date"].apply(getYear)
+    thefts_df['Day'] = thefts_df["Occurrence_Date"].apply(getDay)
 
     print(thefts_df, file=f)
     print(bike_parking_df, file=g)
